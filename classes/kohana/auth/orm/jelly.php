@@ -6,7 +6,7 @@ abstract class Kohana_Auth_ORM_Jelly extends Auth_ORM {
 	{
 		if ( ! is_array($data) )
 		{
-			$user = Jelly::factory('user', $data);
+			$user = Jelly::factory('auth_data', $data);
 		}
 		else
 		{
@@ -15,15 +15,19 @@ abstract class Kohana_Auth_ORM_Jelly extends Auth_ORM {
 				->where('service_name', '=', $data['service_name'])
 				->limit(1)
 				->execute();
-
+			/*if ( ! $user->loaded() )
+			{
+				return FALSE;
+			} */
 			if ($user->loaded())
 			{
-				return $user->user;
+				return $user;
 			}
 			// user not found
-			return Jelly::factory('auth_data')
+			/*return Jelly::factory('auth_data')
 				->set('service_id', $data['service_id'])
-				->set('service_name', $data['service_name']);
+				->set('service_name', $data['service_name']);*/
+			return $this->_save_user($data);
 		}
 
 		return $user->loaded() ? $user : FALSE;
@@ -31,14 +35,38 @@ abstract class Kohana_Auth_ORM_Jelly extends Auth_ORM {
 
 	protected function _save_user(array $data)
 	{
-		$user = Jelly::factory('user')
-			->set('username', $data['service_id'])
-			->set('email', $data['email']);
+		$user = Jelly::factory('auth_data')
+			->set('service_id', $data['service_id'])
+			->set('service_name', $data['service_name']);
 		$user->save();
-		$auth_data = Jelly::factory('auth_data')->set($data);
-		$auth_data->user = $user;
-		$auth_data->save();
 		return $user;
+	}
+
+	protected function _load_token($token)
+	{
+		return Jelly::query('token')->where('token', '=', $token)->execute();
+	}
+
+	protected function _delete_token($token)
+	{
+		if ( ! is_object($token))
+		{
+			$token = $this->_get_token($token);
+		}
+
+		if ($token->loaded())
+		{
+			$token->delete();
+		}
+	}
+
+	protected function _create_token($user, $lifetime)
+	{
+		$token = Jelly::factory('token');
+		$token->generate($lifetime);
+		$token->user = $user;
+		$token->save();
+		return $token;
 	}
 
 }

@@ -1,3 +1,3 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-class Auth_Driver_OAuth extends Kohana_Auth_Driver_OAuth {}
+abstract class Auth_Driver_OAuth extends Kohana_Auth_Driver_OAuth {}

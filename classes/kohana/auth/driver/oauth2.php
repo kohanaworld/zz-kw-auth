@@ -2,27 +2,43 @@
 
 abstract class Kohana_Auth_Driver_OAuth2 extends Auth_Driver {
 	/**
-	 * @var OAuth_v2
+	 * @var OAuth2
 	 */
 	protected $_oauth;
+	/*
+	 * @var OAuth_Client
+	 */
+	protected $_consumer;
 	/**
-	 * @var OAuth_v2_Provider
+	 * @var OAuth2_Provider
 	 */
 	protected $_provider;
 	/**
-	 * @var OAuth_v2_Token_Access
+	 * @var OAuth2_Token_Access
 	 */
 	protected $_token;
 	protected $_token_key = 'auth_oauth2_token';
 
 	abstract protected function _get_user_data($user);
+	abstract protected function _url_verify_credentials();
 
+	protected function _verify_credentials(OAuth2_Token_Access $token, OAuth2_Client $client)
+	{
+		$request = OAuth2_Request::factory('credentials', 'GET', $this->_url_verify_credentials(), array(
+			'oauth_consumer_key' => $client->id,
+			'oauth_token' => $token->token,
+		));
+
+		$response = $request->execute();
+		return $this->_get_user_data($response);
+	}
 
 	public $name = 'oauth2';
 
 	public function init()
 	{
-		$this->_oauth = OAuth::v2();
+		$this->_oauth = new OAuth2;
+		$this->_consumer = new OAuth2_Client(Kohana::config('oauth.'.$this->_provider));
 		$this->_provider = $this->_oauth->provider($this->_provider);
 		if ($token = Cookie::get($this->_token_key))
 		{
@@ -31,9 +47,9 @@ abstract class Kohana_Auth_Driver_OAuth2 extends Auth_Driver {
 	}
 
 	/**
-	 * @param  OAuth_v2_Token_Access $token
-	 * @param  Boolean               $remember
-	 * @return void
+	 * @param  OAuth2_Token_Access $token
+	 * @param  Boolean             $remember
+	 * @return FALSE|object
 	 */
 	public function login()
 	{
@@ -47,14 +63,19 @@ abstract class Kohana_Auth_Driver_OAuth2 extends Auth_Driver {
 		return $user;
 	}
 
+	public function force_login($id)
+	{
+
+	}
+
 	public function logout()
 	{
 		Cookie::delete($this->_token_key);
 	}
 
 	/**
-	 * @param   OAuth_v2_Token_Access  $token
-	 * @return  Model_User
+	 * @param   OAuth2_Token_Access  $token
+	 * @return  Model_Auth_Data
 	 */
 	public function get_user()
 	{
@@ -62,9 +83,9 @@ abstract class Kohana_Auth_Driver_OAuth2 extends Auth_Driver {
 		{
 			return FALSE;
 		}
-		// get user info from OAuth service
-		$user = $this->_provider->resource_account()->get_userinfo($this->_token, NULL);
-		$user_data = $this->_get_user_data($user);
-		return $this->_auth->orm()->get_user($user_data);
+		// get user info from OAuth provider
+		$user = $this->_verify_credentials($this->_token, $this->_consumer);
+		return $this->_auth->orm()->get_user($user);
 	}
+
 }

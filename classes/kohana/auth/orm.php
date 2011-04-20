@@ -4,6 +4,9 @@ abstract class Kohana_Auth_ORM {
 
 	abstract protected function _load_user($data);
 	abstract protected function _save_user(array $data);
+	abstract protected function _load_token($token);
+	abstract protected function _delete_token($token);
+	abstract protected function _create_token($user, $lifetime);
 
 	/**
 	 * @param  mixed  $data  user data (Array) or user ID (int)
@@ -11,7 +14,9 @@ abstract class Kohana_Auth_ORM {
 	 */
 	public function get_user($data)
 	{
-		if ( ! is_array($data) )
+		return $this->_load_user($data);
+
+		/*if ( is_array($data) )
 		{
 			// try to load user from DB
 			return $this->_load_user($data);
@@ -19,9 +24,28 @@ abstract class Kohana_Auth_ORM {
 		else
 		{
 			$user = $this->_load_user($data);
-
 			return $user;
+		} */
+	}
+
+	public function get_token($token)
+	{
+		$token = $this->_load_token($token);
+		if ($token->is_valid())
+		{
+			return $token;
 		}
+		else
+		{
+			$this->_delete_token($token);
+			return FALSE;
+		}
+	}
+
+	public function generate_token($user, $lifetime = 1209600)
+	{
+		return $this->_create_token($user, $lifetime);
+
 	}
 }
 

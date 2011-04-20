@@ -4,12 +4,20 @@ abstract class Kohana_Auth_Driver_OAuth_Twitter extends Auth_Driver_OAuth {
 
 	protected $_provider = 'twitter';
 
+	protected function _url_verify_credentials()
+	{
+		return 'http://api.twitter.com/1/account/verify_credentials.json';
+	}
+
+
 	/**
-	 * @param   stdClass  $user object
+	 * @param   string  $user object (response from Twitter OAuth)
 	 * @return  Array
 	 */
 	protected function _get_user_data($user)
 	{
+		$user = json_decode($user);
+
 		return array(
 			'service_id'    => $user->screen_name,
 			'realname'      => $user->name,

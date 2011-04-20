@@ -27,8 +27,15 @@ abstract class Kohana_Auth_Driver {
 		return $this;
 	}
 
-	public function init() {}
+	public function init()
+	{
+		// to be implemented in drivers
+	}
 
-	public function complete_login() {}
+	public function complete_login()
+	{
+		// to be implemented in drivers
+	}
+
 
 }
