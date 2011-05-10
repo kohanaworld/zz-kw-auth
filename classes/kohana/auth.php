@@ -53,10 +53,25 @@ abstract class Kohana_Auth {
 	}
 
 	/**
-	 * @param bool $refresh
-	 * @return  FALSE|Model_Auth_Data
+	 * @param bool  reload user data from DB
+	 * @return  FALSE|Model_User
 	 */
 	public function get_user($refresh = FALSE)
+	{
+		$authdata = $this->get_authdata($refresh);
+		if ( ! $authdata)
+		{
+			return FALSE;
+		}
+
+		return $authdata->user;		
+	}
+
+	/**
+	 * @param bool  reload user data from DB
+	 * @return  FALSE|Model_Auth_Data
+	 */
+	public function get_authdata($refresh = FALSE)
 	{
 		$driver = $this->_session->get($this->_driver_key);
 		if ( ! $driver AND $this->_session->get($this->_forced_key) !== TRUE )
