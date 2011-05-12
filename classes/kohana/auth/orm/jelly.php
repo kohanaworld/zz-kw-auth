@@ -44,7 +44,7 @@ abstract class Kohana_Auth_ORM_Jelly extends Auth_ORM {
 
 	protected function _load_token($token)
 	{
-		return Jelly::query('token')->where('token', '=', $token)->execute();
+		return Jelly::query('token')->where('token', '=', $token)->limit(1)->execute();
 	}
 
 	protected function _delete_token($token)
