@@ -60,11 +60,12 @@ abstract class Kohana_Auth_ORM_Jelly extends Auth_ORM {
 		}
 	}
 
-	protected function _create_token($user, $lifetime)
+	protected function _create_token($user, $driver,$lifetime)
 	{
 		$token = Jelly::factory('token');
 		$token->generate($lifetime);
 		$token->user = $user;
+		$token->driver = $driver;
 		$token->save();
 		return $token;
 	}
