@@ -6,7 +6,7 @@ abstract class Kohana_Auth_ORM {
 	abstract protected function _save_user(array $data);
 	abstract protected function _load_token($token);
 	abstract protected function _delete_token($token);
-	abstract protected function _create_token($user, $lifetime);
+	abstract protected function _create_token($user, $driver, $lifetime);
 
 	/**
 	 * @param  mixed  $data  user data (Array) or user ID (int)
@@ -42,10 +42,9 @@ abstract class Kohana_Auth_ORM {
 		}
 	}
 
-	public function generate_token($user, $lifetime = 1209600)
+	public function generate_token($user, $driver, $lifetime = 1209600)
 	{
-		return $this->_create_token($user, $lifetime);
-
+		return $this->_create_token($user, $driver, $lifetime);
 	}
 }
 
