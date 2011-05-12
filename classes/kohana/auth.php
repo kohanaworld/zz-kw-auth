@@ -64,7 +64,7 @@ abstract class Kohana_Auth {
 			return FALSE;
 		}
 
-		return $authdata->user;		
+		return $authdata->user;
 	}
 
 	/**
@@ -76,7 +76,8 @@ abstract class Kohana_Auth {
 		$driver = $this->_session->get($this->_driver_key);
 		if ( ! $driver AND $this->_session->get($this->_forced_key) !== TRUE )
 		{
-			return FALSE;
+			if ( ! $this->auto_login())
+				return FALSE;
 		}
 
 		if ($user = $this->_session->get($this->_user_key))
@@ -120,8 +121,8 @@ abstract class Kohana_Auth {
 			$remember = (bool)arr::get($params, 1, FALSE);
 			if ($remember)
 			{
-				$token = $this->orm()->generate_token($user, $this->_config['lifetime']);
-				Cookie::set($this->_autologin_key, $token);
+				$token = $this->orm()->generate_token($user, $driver_name, $this->_config['lifetime']);
+				Cookie::set($this->_autologin_key, $token->token);
 			}
 			return TRUE;
 		}
@@ -172,8 +173,7 @@ abstract class Kohana_Auth {
 		if ($token AND $token->is_valid())
 		{
 			// its a valid token
-			$this->_session->set($this->_driver_key, $token->driver);
-			$this->_session->set($this->_user_key, $token->user);
+			$this->_complete_login($token->user, $token->driver);
 			$token->generate($this->_config['lifetime']);
 			Cookie::set($this->_autologin_key, $token->token);
 			return $token->user;
