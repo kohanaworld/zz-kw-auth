@@ -12,7 +12,7 @@ class Model_Auth_Jelly_Token extends Jelly_Model {
 				'user_agent'  => Jelly::field('string'),
 				'expires'     => Jelly::field('timestamp'),
 				'user'        => Jelly::field('belongsTo', array(
-					'model'      => 'auth_data',
+					'foreign'      => 'auth_data',
 				)),
 			));
 	}
