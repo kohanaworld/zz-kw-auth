@@ -22,7 +22,7 @@ abstract class Kohana_Auth_Driver_OAuth_Google extends Auth_Driver_OAuth {
 		return array(
 			'service_id'    => $login,
 			'realname'      => $user->displayName,
-			'service_name'  => 'google',
+			'service_name'  => 'oauth.google',
 			'email'         => $login.'@gmail.com', // ?
 		);
 
