@@ -37,7 +37,8 @@ abstract class Kohana_Auth_ORM_Jelly extends Auth_ORM {
 	{
 		$user = Jelly::factory('auth_data')
 			->set('service_id', $data['service_id'])
-			->set('service_name', $data['service_name']);
+			->set('service_name', $data['service_name'])
+			->set('email', $data['email']);
 		$user->save();
 		return $user;
 	}
