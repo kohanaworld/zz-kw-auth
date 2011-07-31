@@ -25,12 +25,22 @@ abstract class Kohana_Auth_Driver_OAuth2 extends Auth_Driver {
 	protected function _verify_credentials(OAuth2_Token_Access $token, OAuth2_Client $client)
 	{
 		$request = OAuth2_Request::factory('credentials', 'GET', $this->_url_verify_credentials(), array(
-			'oauth_consumer_key' => $client->id,
-			'oauth_token' => $token->token,
+		//	'oauth_consumer_key' => $client->id,
+		//	'oauth_token' => $token->token,
 		));
+
+		$request->params($this->_credential_params($client, $token));
 
 		$response = $request->execute();
 		return $this->_get_user_data($response);
+	}
+
+	protected function _credential_params(OAuth2_Client $client, OAuth2_Token_Access $token)
+	{
+		return array(
+			'oauth_consumer_key' => $client->id,
+			'oauth_token' => $token->token,
+		);
 	}
 
 	public $name = 'oauth2';
