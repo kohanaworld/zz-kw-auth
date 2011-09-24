@@ -9,6 +9,7 @@ class Model_Auth_Jelly_Auth_Data extends Jelly_Model {
 				'id'           => Jelly::field('primary'),
 				'service_id'   => Jelly::field('string'),
 				'service_name' => Jelly::field('string'),
+				'service_type' => Jelly::field('string'),
 				'email'        => Jelly::field('email'),
 				'is_active'    => Jelly::field('boolean', array(
 					'default'     => TRUE,

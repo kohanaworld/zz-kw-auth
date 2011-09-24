@@ -20,9 +20,10 @@ abstract class Kohana_Auth_Driver_OAuth_LinkedIn extends Auth_Driver_OAuth {
 		$login = trim(Arr::get($user, 'first-name') . ' ' . Arr::get($user, 'last-name'));
 
 		return array(
-			'service_id'    => $login,
+			'service_id'    => $user['id'],
+			'service_name'  => $login,
 			'realname'      => $login,
-			'service_name'  => 'oauth.linkedin',
+			'service_type'  => 'oauth.linkedin',
 			'email'         => NULL,
 		);
 

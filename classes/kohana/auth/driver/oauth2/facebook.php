@@ -13,9 +13,10 @@ abstract class Kohana_Auth_Driver_OAuth2_Facebook extends Auth_Driver_OAuth2 {
 		$user = json_decode($user);
 
 		return array(
-			'service_id'    => $user->name,
+			'service_id'    => $user->id,
+			'service_name'  => $user->name,
 			'realname'      => $user->name,
-			'service_name'  => 'oauth2.facebook',
+			'service_type'  => 'oauth2.facebook',
 			'email'         => $user->email,
 		);
 	}

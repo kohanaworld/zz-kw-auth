@@ -17,13 +17,12 @@ abstract class Kohana_Auth_Driver_OAuth_Google extends Auth_Driver_OAuth {
 	{
 		$user = json_decode($user);
 		$user = $user->entry;
-		$account = explode('/', $user->profileUrl);
-		$login = end($account);
 		return array(
-			'service_id'    => $login,
+			'service_id'    => $user->id,
+			'service_name'  => $user->displayName,
 			'realname'      => $user->displayName,
-			'service_name'  => 'oauth.google',
-			'email'         => $login.'@gmail.com', // ?
+			'service_type'  => 'oauth.google',
+			'email'         => isset($user->email) ? $user->email : NULL, // may be empty
 		);
 
 	}

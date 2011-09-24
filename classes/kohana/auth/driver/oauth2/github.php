@@ -13,9 +13,10 @@ class Kohana_Auth_Driver_OAuth2_Github extends Auth_Driver_OAuth2 {
 		$user = json_decode($user);
 		$user = $user->user;
 		return array(
-			'service_id'    => $user->login,
+			'service_id'    => $user->id,
+			'service_name'  => $user->login,
 			'realname'      => $user->name,
-			'service_name'  => 'oauth2.github',
+			'service_type'  => 'oauth2.github',
 			'email'         => $user->email,
 		);
 	}

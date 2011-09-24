@@ -19,9 +19,10 @@ abstract class Kohana_Auth_Driver_OAuth_Twitter extends Auth_Driver_OAuth {
 		$user = json_decode($user);
 
 		return array(
-			'service_id'    => $user->screen_name,
+			'service_id'    => $user->id,
+			'service_name'  => $user->screen_name,
 			'realname'      => $user->name,
-			'service_name'  => 'oauth.twitter',
+			'service_type'  => 'oauth.twitter',
 			'email'         => NULL, // ?
 		);
 

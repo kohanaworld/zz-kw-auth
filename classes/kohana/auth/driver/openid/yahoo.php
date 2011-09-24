@@ -11,7 +11,7 @@ abstract class Kohana_Auth_Driver_OpenID_Yahoo extends Auth_Driver_OpenID {
 		if ( ! empty($result['email']))
 		{
 			// Yahoo returns contact/email field - get username from its
-			$result['service_id']   = current(explode('@', $result['email']));
+			$result['service_name']   = current(explode('@', $result['email']));
 		}
 
 		return $result;

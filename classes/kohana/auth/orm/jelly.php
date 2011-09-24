@@ -12,7 +12,7 @@ abstract class Kohana_Auth_ORM_Jelly extends Auth_ORM {
 		{
 			$user = Jelly::query('auth_data')
 				->where('service_id', '=', $data['service_id'])
-				->where('service_name', '=', $data['service_name'])
+				->where('service_type', '=', $data['service_type'])
 				->limit(1)
 				->execute();
 			/*if ( ! $user->loaded() )
@@ -37,6 +37,7 @@ abstract class Kohana_Auth_ORM_Jelly extends Auth_ORM {
 	{
 		$user = Jelly::factory('auth_data')
 			->set('service_id', $data['service_id'])
+			->set('service_type', $data['service_type'])
 			->set('service_name', $data['service_name'])
 			->set('email', $data['email']);
 		$user->save();

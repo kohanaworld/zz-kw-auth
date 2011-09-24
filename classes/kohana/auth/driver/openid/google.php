@@ -9,7 +9,7 @@ abstract class Kohana_Auth_Driver_OpenID_Google extends Auth_Driver_OpenID {
 		$result = parent::_get_user_data($user);
 
 		// Google returns contact/email field only
-		$result['service_id']   = current(explode('@', $result['email']));
+		$result['service_name']   = current(explode('@', $result['email']));
 		if (empty($result['realname']))
 		{
 			$result['realname'] = trim(arr::get($result, 'namePerson/first').' '.arr::get($result, 'namePerson/last'));

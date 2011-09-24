@@ -8,7 +8,7 @@ abstract class Kohana_Auth_Driver_OpenID_MyOpenID extends Auth_Driver_OpenID {
 	{
 		$result = parent::_get_user_data($user);
 		// Myopenid's OpenID identity is an unique URL, so we need to change it to original ID
-		$result['service_id'] = $this->_openid->public_id();
+		$result['service_name'] = $this->_openid->public_id();
 		return $result;
 	}
 

@@ -23,8 +23,9 @@ abstract class Kohana_Auth_Driver_OpenID extends Auth_Driver {
 	{
 		return array(
 			'service_id'    => $this->_identity,
+			'service_name'  => $this->_identity,
 			'realname'      => arr::get($user, 'namePerson/friendly', NULL),
-			'service_name'  => $this->name,
+			'service_type'  => $this->name,
 			'email'         => arr::get($user, 'contact/email', NULL),
 		);
 	}
