@@ -18,6 +18,8 @@ class Kohana_Auth_Driver_OAuth2_Github extends Auth_Driver_OAuth2 {
 			'realname'      => $user->name,
 			'service_type'  => 'oauth2.github',
 			'email'         => $user->email,
+			// Github uses Gravatar for profile images
+			'avatar'        => $user->gravatar_id,
 		);
 	}
 

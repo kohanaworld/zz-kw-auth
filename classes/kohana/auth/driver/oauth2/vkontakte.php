@@ -20,6 +20,7 @@ abstract class Kohana_Auth_Driver_OAuth2_VKontakte extends Auth_Driver_OAuth2 {
 			'realname'      => $login,
 			'service_type'  => 'oauth2.vkontakte',
 			'email'         => NULL,
+			'photo'         => $user->photo,
 		);
 	}
 
@@ -33,7 +34,7 @@ abstract class Kohana_Auth_Driver_OAuth2_VKontakte extends Auth_Driver_OAuth2 {
 		return array(
 			'uid'          => $token->user_id,
 			'access_token' => $token->token,
-			'fields'       => 'nickname',
+			'fields'       => 'uid,first_name,last_name,nickname,sex,bdate,city,country,photo,photo_medium,photo_big,photo_rec',
 		);
 	}
 

@@ -23,6 +23,7 @@ abstract class Kohana_Auth_Driver_OAuth_Google extends Auth_Driver_OAuth {
 			'realname'      => $user->displayName,
 			'service_type'  => 'oauth.google',
 			'email'         => isset($user->email) ? $user->email : NULL, // may be empty
+			'avatar'        => $user->thumbnailUrl ? $user->thumbnailUrl : '',
 		);
 
 	}

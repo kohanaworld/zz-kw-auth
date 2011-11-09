@@ -6,7 +6,8 @@ abstract class Kohana_Auth_Driver_OAuth_LinkedIn extends Auth_Driver_OAuth {
 
 	protected function _url_verify_credentials()
 	{
-		return 'https://api.linkedin.com/v1/people/~:(id,first-name,last-name)';
+		// @link https://developer.linkedin.com/documents/profile-fields
+		return 'https://api.linkedin.com/v1/people/~:(id,first-name,last-name,date-of-birth,picture-url)';
 	}
 
 	/**
@@ -25,6 +26,7 @@ abstract class Kohana_Auth_Driver_OAuth_LinkedIn extends Auth_Driver_OAuth {
 			'realname'      => $login,
 			'service_type'  => 'oauth.linkedin',
 			'email'         => NULL,
+			'avatar'        => Arr::get($user, 'picture-url'),
 		);
 
 	}

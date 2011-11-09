@@ -11,12 +11,22 @@ class Kohana_Auth_Driver_OAuth2_Yandex extends Auth_Driver_OAuth2 {
 	protected function _get_user_data($user)
 	{
 		$user = simplexml_load_string($user);
+		$avatar = NULL;
+
+		foreach($user->link as $link)
+		{
+			if ($link->rel = 'userpic')
+			{
+				$avatar = $link->href;
+			}
+		}
 		return array(
 			'service_id'    => $user->id,
 			'service_name'  => $user->name,
 			'realname'      => $user->name,
 			'service_type'  => 'oauth2.yandex',
 			'email'         => $user->email,
+			'avatar'        => $avatar,
 		);
 	}
 

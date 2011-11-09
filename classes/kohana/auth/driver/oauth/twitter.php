@@ -24,6 +24,7 @@ abstract class Kohana_Auth_Driver_OAuth_Twitter extends Auth_Driver_OAuth {
 			'realname'      => $user->name,
 			'service_type'  => 'oauth.twitter',
 			'email'         => NULL, // ?
+			'avatar'        => $user->profile_image_url,
 		);
 
 	}
