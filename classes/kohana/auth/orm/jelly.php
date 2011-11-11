@@ -40,6 +40,7 @@ abstract class Kohana_Auth_ORM_Jelly extends Auth_ORM {
 			->set('service_type', $data['service_type'])
 			->set('service_name', $data['service_name'])
 			->set('email', $data['email']);
+			->set('avatar', Arr::get($data, 'avatar'));
 		$user->save();
 		return $user;
 	}
