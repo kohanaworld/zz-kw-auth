@@ -16,7 +16,7 @@ abstract class Kohana_Auth_Driver_OAuth2_VKontakte extends Auth_Driver_OAuth2 {
 		$login = trim($user->first_name.' '.$user->last_name);
 		return array(
 			'service_id'    => $user->uid,
-			'service_name'  => $user->nickname ? $user->nickname : $login,
+			'service_name'  => isset($user->nickname) ? $user->nickname : $login,
 			'realname'      => $login,
 			'service_type'  => 'oauth2.vkontakte',
 			'email'         => NULL,
