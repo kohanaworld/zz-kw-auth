@@ -19,7 +19,7 @@ abstract class Kohana_Auth_Driver_OAuth2_Facebook extends Auth_Driver_OAuth2 {
 			'service_type'  => 'oauth2.facebook',
 			'email'         => $user->email,
 			// @see http://developers.facebook.com/docs/reference/api/#pictures
-			'avatar'        => 'https://graph.facebook.com/' . $user->id . '/picture',
+			'avatar'        => 'https://graph.facebook.com/' . $user->id . '/picture?type=normal',
 		);
 	}
 
